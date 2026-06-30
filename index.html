@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dexcom for macOS</title>
+    <meta
+      name="description"
+      content="Free, open-source macOS app that displays real-time Dexcom CGM glucose readings in your menu bar and an always-on-top widget. Credentials encrypted via macOS Keychain." />
+    <meta name="keywords" content="Dexcom, macOS, glucose monitor, CGM, menu bar, diabetes, open source, Mac app, real-time glucose" />
+    <meta name="author" content="Matthew Blam" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://github.com/MatthewBlam/Dexcom-macOS" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Dexcom for Mac — Real-Time Glucose Readings on macOS" />
+    <meta property="og:description" content="Free, open-source macOS app for real-time Dexcom CGM readings. Menu bar readout and always-on-top widget." />
+    <meta property="og:image" content="dexcom_app.png" />
+    <meta property="og:url" content="https://github.com/MatthewBlam/Dexcom-macOS" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dexcom for Mac — Real-Time Glucose Readings on macOS" />
+    <meta name="twitter:description" content="Free, open-source macOS app for real-time Dexcom CGM readings. Menu bar readout and always-on-top widget." />
+    <meta name="twitter:image" content="dexcom_app.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              accent: "#32a612",
+              "accent-hover": "#2f9911",
+              dark: "#211F1B",
+              muted: "#6E6A60",
+              light: "#a8a39a",
+              border: "#E3DDD0",
+              "border-light": "#F0EEE9",
+              surface: "#F9F8F6",
+              heart: "#f73d45",
+            },
+            fontFamily: {
+              sans: ["Hanken Grotesk", "system-ui", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      ::selection {
+        background: #cdeec1;
+        color: #173d0a;
+      }
+    </style>
+  </head>
+  <body class="m-0 p-0 bg-white text-dark font-sans antialiased overflow-x-hidden">
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 w-full h-20 flex items-center justify-between bg-white/80 backdrop-blur-lg py-5 px-7 md:px-14">
+      <a href="#" class="inline-flex items-center" aria-label="Dexcom for Mac home">
+        <svg viewBox="0 0 1000 1000" width="60" height="60" fill="#32a612" class="block" role="img" aria-label="Dexcom for Mac logo">
+          <circle cx="500" cy="500" r="126.76"></circle>
+          <path
+            d="M722.7,258.57H501.79c-132.4,0-242.83,108.31-243.22,240.7c-0.39,133.91,108.23,242.55,242.14,242.16c132.4-0.38,240.72-110.81,240.72-243.21V277.29C741.43,266.95,733.05,258.57,722.7,258.57z M500,660.17c-88.46,0-160.17-71.71-160.17-160.17c0-88.46,71.71-160.17,160.17-160.17S660.17,411.54,660.17,500C660.17,588.46,588.46,660.17,500,660.17z"></path>
+        </svg>
+      </a>
+      <div class="flex items-center gap-5">
+        <a
+          href="https://github.com/MatthewBlam/Dexcom-macOS"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="select-none inline-flex items-center gap-2 bg-dark text-white no-underline font-semibold text-sm px-4 py-2.5 rounded-3xl transition-all duration-150 hover:opacity-90">
+          <svg viewBox="0 0 384 512" width="14" height="14" fill="#fff" class="-mt-0.5">
+            <path
+              d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path>
+          </svg>
+          Download
+        </a>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+      <!-- HERO -->
+      <section class="max-w-screen-xl mx-auto flex flex-col items-center text-center pt-7 md:pt-16 px-7">
+        <div class="inline-flex items-center gap-2 text-base text-muted mb-9">
+          <span>Free &amp; open source.</span>
+          <a
+            href="https://github.com/MatthewBlam/Dexcom-macOS"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 text-dark font-semibold no-underline hover:text-accent transition-colors"
+            >View on GitHub <span class="text-sm">&rarr;</span></a
+          >
+        </div>
+
+        <h1 class="font-bold leading-none tracking-tighter m-0 text-4xl md:text-5xl lg:text-6xl text-balance">
+          Real-time<br class="md:hidden" />
+          Dexcom readings<br /><span class="text-muted">right on your Mac.</span>
+        </h1>
+
+        <div class="mt-10">
+          <a
+            href="https://github.com/MatthewBlam/Dexcom-macOS"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="select-none inline-flex items-center gap-3 bg-accent text-white no-underline font-semibold text-base rounded-xl py-3.5 px-5 transition-all duration-150 hover:bg-accent-hover">
+            <svg viewBox="0 0 384 512" width="17" height="17" fill="#fff" class="-mt-0.5">
+              <path
+                d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path>
+            </svg>
+            <span>Download for macOS</span>
+          </a>
+          <p class="text-xs text-light mt-3.5">macOS 12+ &middot; Apple Silicon</p>
+        </div>
+
+        <!-- APP SCREENSHOT -->
+        <div class="w-full max-w-screen-lg mt-10 md:mt-20">
+          <img src="dexcom_app.png" alt="Dexcom for Mac app showing real-time glucose reading of 172 mg/dL with trend arrow and status bar" class="block w-full h-auto rounded-3xl" />
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" class="max-w-screen-lg mx-auto mt-16 flex flex-col gap-16 px-7">
+        <div class="flex flex-col md:flex-row md:items-start gap-8">
+          <div class="md:flex-1">
+            <h3 class="text-lg font-bold m-0 mb-2">Runs locally</h3>
+            <p class="text-sm leading-relaxed text-muted m-0">No web app, no servers. Polls Dexcom directly on your Mac.</p>
+          </div>
+          <div class="hidden md:block w-px bg-border self-stretch"></div>
+          <div class="md:flex-1">
+            <h3 class="text-lg font-bold m-0 mb-2">Keychain-encrypted</h3>
+            <p class="text-sm leading-relaxed text-muted m-0">Credentials sealed at rest by macOS. Never stored in plain text.</p>
+          </div>
+          <div class="hidden md:block w-px bg-border self-stretch"></div>
+          <div class="md:flex-1">
+            <h3 class="text-lg font-bold m-0 mb-2">Real-time</h3>
+            <p class="text-sm leading-relaxed text-muted m-0">A menu-bar readout and always-on-top widget. Your numbers, always in view.</p>
+          </div>
+        </div>
+
+        <!-- SECOND CTA -->
+        <div class="w-full mx-auto mt-8 rounded-3xl border border-border bg-surface py-16 px-7 text-center">
+          <h2 class="font-bold tracking-tight text-2xl md:text-4xl m-0">
+            Open source.<br class="md:hidden" />
+            Built for the community.
+          </h2>
+          <p class="text-base leading-relaxed text-muted mt-2 mb-8 m-0">Completely free &mdash; not affiliated with Dexcom, Inc.</p>
+          <a
+            href="https://github.com/MatthewBlam/Dexcom-macOS"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="select-none inline-flex items-center gap-3 bg-dark text-white no-underline font-semibold text-base rounded-xl py-3.5 px-5 transition-all duration-150 hover:opacity-90">
+            <svg viewBox="0 0 384 512" width="17" height="17" fill="#fff" class="-mt-0.5">
+              <path
+                d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path>
+            </svg>
+            <span>Download for macOS</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full border-t border-border flex flex-wrap gap-3.5 items-center justify-between text-sm text-light mt-16 md:mt-28 py-7 px-7 md:px-14">
+      <span class="text-muted">made with <span class="text-heart">&hearts;</span></span>
+      <a href="mailto:mrblam@calpoly.edu" target="_blank" rel="noopener noreferrer" class="text-dark font-semibold no-underline hover:text-accent transition-colors">mrblam@calpoly.edu</a>
+    </footer>
+
+    <!-- STRUCTURED DATA -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Dexcom for Mac",
+        "operatingSystem": "macOS 12+",
+        "applicationCategory": "HealthApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Free, open-source macOS app that displays real-time Dexcom CGM glucose readings in your menu bar and an always-on-top widget.",
+        "downloadUrl": "https://github.com/MatthewBlam/Dexcom-macOS",
+        "softwareVersion": "1.0",
+        "author": {
+          "@type": "Person",
+          "name": "Matthew Blam",
+          "url": "https://github.com/MatthewBlam"
+        },
+        "license": "https://opensource.org/licenses/MIT",
+        "isAccessibleForFree": true
+      }
+    </script>
+  </body>
+</html>
