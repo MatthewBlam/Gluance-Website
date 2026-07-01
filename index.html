@@ -63,6 +63,17 @@
         background: #cdeec1;
         color: #173d0a;
       }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      body {
+        animation: fadeIn 1s ease-in both;
+      }
     </style>
   </head>
   <body class="m-0 p-0 bg-white text-dark font-sans antialiased overflow-x-hidden">
@@ -77,7 +88,7 @@
       </a>
       <div class="flex items-center gap-5">
         <a
-          href="https://github.com/MatthewBlam/Dexcom-macOS"
+          href="https://github.com/MatthewBlam/Dexcom-macOS/releases/tag/v1.0.0"
           target="_blank"
           rel="noopener noreferrer"
           class="select-none inline-flex items-center gap-2 bg-dark text-white no-underline font-semibold text-sm px-4 py-2.5 rounded-3xl transition-all duration-150 hover:opacity-90">
@@ -112,7 +123,7 @@
 
         <div class="mt-10">
           <a
-            href="https://github.com/MatthewBlam/Dexcom-macOS"
+            href="https://github.com/MatthewBlam/Dexcom-macOS/releases/tag/v1.0.0"
             target="_blank"
             rel="noopener noreferrer"
             class="select-none inline-flex items-center gap-3 bg-accent text-white no-underline font-semibold text-base rounded-xl py-3.5 px-5 transition-all duration-150 hover:bg-accent-hover">
@@ -125,40 +136,78 @@
           <p class="text-xs text-light mt-3.5">macOS 12+ &middot; Apple Silicon</p>
         </div>
 
-        <!-- APP SCREENSHOT -->
-        <div class="w-full max-w-screen-lg mt-10 md:mt-20">
-          <img src="dexcom_app.png" alt="Dexcom for Mac app showing real-time glucose reading of 172 mg/dL with trend arrow and status bar" class="block w-full h-auto rounded-3xl" />
+        <!-- APP DEMO -->
+        <div class="group relative w-full max-w-screen-lg mt-10 md:mt-20">
+          <video id="demo" src="dexcom-macos-demo.mp4" autoplay loop muted playsinline class="block w-full h-auto rounded-2xl" aria-label="Dexcom for Mac app demo"></video>
+          <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <button
+              id="demo-playpause"
+              onclick="
+                const v = document.getElementById('demo');
+                v.paused ? v.play() : v.pause();
+                this.querySelector('.icon-pause').classList.toggle('hidden', v.paused);
+                this.querySelector('.icon-play').classList.toggle('hidden', !v.paused);
+              "
+              class="bg-dark/70 hover:bg-dark/90 text-white w-10 h-10 flex items-center justify-center rounded-full backdrop-blur-sm transition-colors cursor-pointer"
+              aria-label="Pause or play demo">
+              <svg class="icon-pause w-5 h-5" data-slot="icon" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  clip-rule="evenodd"
+                  d="M6.75 5.25a.75.75 0 0 1 .75-.75H9a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75V5.25Zm7.5 0A.75.75 0 0 1 15 4.5h1.5a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H15a.75.75 0 0 1-.75-.75V5.25Z"
+                  fill-rule="evenodd"></path>
+              </svg>
+              <svg class="icon-play w-5 h-5 hidden" data-slot="icon" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  clip-rule="evenodd"
+                  d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                  fill-rule="evenodd"></path>
+              </svg>
+            </button>
+            <button
+              onclick="
+                const v = document.getElementById('demo');
+                v.currentTime = 0;
+                v.play();
+                const b = document.getElementById('demo-playpause');
+                b.querySelector('.icon-pause').classList.remove('hidden');
+                b.querySelector('.icon-play').classList.add('hidden');
+              "
+              class="bg-dark/70 hover:bg-dark/90 text-white w-10 h-10 flex items-center justify-center rounded-full backdrop-blur-sm transition-colors cursor-pointer"
+              aria-label="Restart demo">
+              <svg class="w-4 h-4" data-slot="icon" aria-hidden="true" fill="none" stroke-width="3" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </section>
 
       <!-- FEATURES -->
-      <section id="features" class="max-w-screen-lg mx-auto mt-16 flex flex-col gap-16 px-7">
-        <div class="flex flex-col md:flex-row md:items-start gap-8">
-          <div class="md:flex-1">
+      <section id="features" class="max-w-screen-lg mx-auto mt-20 flex flex-col gap-4 bg-surface rounded-3xl p-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white border border-border rounded-2xl p-6 text-center md:text-left">
             <h3 class="text-lg font-bold m-0 mb-2">Runs locally</h3>
             <p class="text-sm leading-relaxed text-muted m-0">No web app, no servers. Polls Dexcom directly on your Mac.</p>
           </div>
-          <div class="hidden md:block w-px bg-border self-stretch"></div>
-          <div class="md:flex-1">
+          <div class="bg-white border border-border rounded-2xl p-6 text-center md:text-left">
             <h3 class="text-lg font-bold m-0 mb-2">Keychain-encrypted</h3>
             <p class="text-sm leading-relaxed text-muted m-0">Credentials sealed at rest by macOS. Never stored in plain text.</p>
           </div>
-          <div class="hidden md:block w-px bg-border self-stretch"></div>
-          <div class="md:flex-1">
+          <div class="bg-white border border-border rounded-2xl p-6 text-center md:text-left">
             <h3 class="text-lg font-bold m-0 mb-2">Real-time</h3>
             <p class="text-sm leading-relaxed text-muted m-0">A menu-bar readout and always-on-top widget. Your numbers, always in view.</p>
           </div>
         </div>
 
         <!-- SECOND CTA -->
-        <div class="w-full mx-auto mt-8 rounded-3xl border border-border bg-surface py-16 px-7 text-center">
+        <div class="w-full mx-auto rounded-3xl border border-border bg-surface py-16 px-7 text-center bg-white">
           <h2 class="font-bold tracking-tight text-2xl md:text-4xl m-0">
             Open source.<br class="md:hidden" />
             Built for the community.
           </h2>
           <p class="text-base leading-relaxed text-muted mt-2 mb-8 m-0">Completely free &mdash; not affiliated with Dexcom, Inc.</p>
           <a
-            href="https://github.com/MatthewBlam/Dexcom-macOS"
+            href="https://github.com/MatthewBlam/Dexcom-macOS/releases/tag/v1.0.0"
             target="_blank"
             rel="noopener noreferrer"
             class="select-none inline-flex items-center gap-3 bg-dark text-white no-underline font-semibold text-base rounded-xl py-3.5 px-5 transition-all duration-150 hover:opacity-90">
@@ -173,7 +222,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="w-full border-t border-border flex flex-wrap gap-3.5 items-center justify-between text-sm text-light mt-16 md:mt-28 py-7 px-7 md:px-14">
+    <footer class="w-full border-t border-border flex flex-wrap gap-3.5 items-center justify-between text-sm text-light mt-12 md:mt-24 py-7 px-7 md:px-14">
       <span class="text-muted">made with <span class="text-heart">&hearts;</span></span>
       <a href="mailto:mrblam@calpoly.edu" target="_blank" rel="noopener noreferrer" class="text-dark font-semibold no-underline hover:text-accent transition-colors">mrblam@calpoly.edu</a>
     </footer>
@@ -192,7 +241,7 @@
           "priceCurrency": "USD"
         },
         "description": "Free, open-source macOS app that displays real-time Dexcom CGM glucose readings in your menu bar and an always-on-top widget.",
-        "downloadUrl": "https://github.com/MatthewBlam/Dexcom-macOS",
+        "downloadUrl": "https://github.com/MatthewBlam/Dexcom-macOS/releases/tag/v1.0.0",
         "softwareVersion": "1.0",
         "author": {
           "@type": "Person",
