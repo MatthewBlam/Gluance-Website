@@ -53,6 +53,9 @@
     "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 
+  /* Display face for the header wordmark only — not part of the app's token set. */
+  --font-wordmark: "Bitcount Prop Single", "Inter", monospace;
+
   /*
    * Page-level aliases. The raw app tokens are tuned for app chrome — light
    * `--color-app-background` (#e6e6e6) is far too gray for a web page — so the
