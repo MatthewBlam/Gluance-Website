@@ -1,0 +1,146 @@
+/*
+ * Scanning is scoped explicitly: automatic detection also reads the markdown and
+ * SVG files in the repo, and words in that prose ("ring", "invert") get compiled
+ * into real utilities.
+ */
+@import "tailwindcss" source(none);
+@source "./**/*.{ts,tsx}";
+@source "../index.html";
+
+/*
+ * Gluance branding tokens.
+ *
+ * Kept as a near-verbatim mirror of the token block used by the Gluance
+ * desktop app so the two stay easy to diff. The only omission is
+ * `--scale-indicator`, which reads a runtime variable the Electron app sets
+ * and has no meaning on the web.
+ *
+ * `static` forces every variable into the output even when the landing page
+ * doesn't use it, so the mirror stays complete.
+ */
+@theme static {
+  --color-app-surface: #ffffff;
+  --color-app-background: #e6e6e6;
+  --color-app-background-light: #f0f0f0;
+  --color-app-border: #cccccc;
+  --color-app-text: #1a1a1a;
+  --color-app-text-muted: #757575;
+  --color-app-text-subtle: #a8a8a8;
+  --color-brand: #32a612;
+  --color-brand-hover: #2f9911;
+  --color-reading-high: #ffcc3d;
+  --color-reading-low: #f73d45;
+  --color-reading-low-hover: #f8545c;
+  --color-app-gray: #3f4955;
+  --color-on-brand: #ffffff;
+  --color-on-error: #ffffff;
+  --color-control-thumb: #ffffff;
+  --color-indicator-normal: #f0f0f0;
+  --color-indicator-normal-shell: color-mix(in srgb, var(--color-indicator-normal) 85%, black);
+  --color-indicator-low-shell: color-mix(in srgb, var(--color-reading-low) 85%, black);
+  --color-indicator-high-shell: color-mix(in srgb, var(--color-reading-high) 85%, black);
+  --color-indicator-text: #373737;
+  --color-indicator-text-on-high: var(--color-app-text);
+  --color-indicator-arrow-on-high: var(--color-indicator-text-on-high);
+  --color-indicator-unit-on-low: color-mix(in srgb, var(--color-on-error) 82%, var(--color-reading-low));
+  --color-indicator-unit-on-high: color-mix(in srgb, var(--color-indicator-text-on-high) 72%, var(--color-reading-high));
+  --color-control-disabled: #5e6d7e;
+
+  --drop-shadow-ms: 0 1px 1px rgb(0 0 0 / 0.1);
+  --drop-shadow-3xl: 0 0 30px rgba(0, 0, 0, 0.15);
+
+  --font-sans:
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+
+  /*
+   * Page-level aliases. The raw app tokens are tuned for app chrome — light
+   * `--color-app-background` (#e6e6e6) is far too gray for a web page — so the
+   * site addresses surfaces through these three instead, and they flip in dark.
+   */
+  --color-page: var(--color-app-surface);
+  --color-panel: var(--color-app-background-light);
+  --color-card: var(--color-app-surface);
+}
+
+/* Make `dark:` utilities follow our attribute rather than prefers-color-scheme. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-app-surface: #23262a;
+  --color-app-background: #17191c;
+  --color-app-background-light: #2d3136;
+  --color-app-border: #454b52;
+  --color-app-text: #f5f7f8;
+  --color-app-text-muted: #b4bac0;
+  --color-app-text-subtle: #8e959d;
+  --color-brand: #41bd29;
+  --color-brand-hover: #2e951a;
+  --color-app-gray: #c5cad0;
+  --color-on-brand: #ffffff;
+  --color-on-error: #ffffff;
+  --color-control-thumb: #f5f7f8;
+  --color-indicator-normal: #23262a;
+  --color-indicator-text: #f5f7f8;
+  --color-indicator-text-on-high: var(--color-app-background);
+  --color-indicator-arrow-on-high: var(--color-app-text);
+  --color-control-disabled: #69717a;
+  --color-reading-high: #ffd166;
+  --color-reading-low: #ff5c65;
+  --color-reading-low-hover: #ff7078;
+
+  --drop-shadow-ms: 0 1px 1px rgb(0 0 0 / 0.35);
+  --drop-shadow-3xl: 0 0 30px rgb(0 0 0 / 0.45);
+
+  --color-page: var(--color-app-background);
+  --color-panel: var(--color-app-surface);
+  --color-card: var(--color-app-background-light);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-brand) 30%, transparent);
+    color: var(--color-app-text);
+  }
+
+  html {
+    background-color: var(--color-page);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+body {
+  animation: fadeIn 1s ease-in both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

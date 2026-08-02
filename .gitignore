@@ -1,1 +1,12 @@
+node_modules
+dist
+dist-ssr
+.vercel
+*.local
+*.log
 .DS_Store
+
+# Master screen recording (72 MB, 3024x1964 @60fps). Kept out of git and out of
+# public/ — public/demo.mp4 is the web-sized encode built from it.
+# See README "Demo video" for the ffmpeg command.
+/gluance_demo.mp4
