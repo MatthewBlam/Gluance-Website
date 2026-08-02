@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 export type Theme = "light" | "dark";
 
@@ -17,27 +17,13 @@ function apply(theme: Theme) {
 }
 
 /**
- * Follows the OS setting until the visitor picks a theme explicitly, after
- * which their choice wins and is persisted. The initial attribute is set by a
- * blocking script in index.html so there's no flash before hydration.
+ * Dark by default. The OS preference is not consulted — only a choice the visitor
+ * made with the header toggle, which is persisted and wins on every later visit.
+ * The initial attribute is set by a blocking script in index.html so there's no
+ * flash before hydration; this hook only reads what that script decided.
  */
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(currentTheme);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const onChange = (event: MediaQueryListEvent) => {
-      // An explicit choice opts out of following the system.
-      if (localStorage.getItem(STORAGE_KEY)) return;
-      const next: Theme = event.matches ? "dark" : "light";
-      apply(next);
-      setTheme(next);
-    };
-
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
-  }, []);
 
   const toggle = useCallback(() => {
     setTheme((previous) => {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="dark light" />
 
     <title>Gluance — Real-time Dexcom glucose on your Mac</title>
     <meta
@@ -35,14 +35,20 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bitcount+Prop+Single:wght@400..700&display=swap"
       rel="stylesheet" />
 
-    <!-- Sets the theme before first paint so dark-mode visitors never see a light flash. -->
+    <!--
+      Sets the theme before first paint so there's no flash. Dark is the default;
+      the OS preference is deliberately not consulted, only a stored choice from
+      the header toggle. The attribute is set even when the try block throws, so a
+      blocked-storage visitor still lands on dark rather than light.
+    -->
     <script>
       (function () {
+        var dark = true;
         try {
           var stored = localStorage.getItem("theme");
-          var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
-          if (dark) document.documentElement.setAttribute("data-theme", "dark");
+          if (stored) dark = stored === "dark";
         } catch (e) {}
+        if (dark) document.documentElement.setAttribute("data-theme", "dark");
       })();
     </script>
   </head>

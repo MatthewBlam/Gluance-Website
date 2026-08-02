@@ -21,7 +21,7 @@ index.html            entry: head meta, pre-paint theme script
 src/
   config.ts           every external URL and shared string
   index.css           Gluance design tokens (Tailwind v4 @theme) + light/dark
-  hooks/useTheme.ts   system-default theme with a persisted manual override
+  hooks/useTheme.ts   dark by default, with a persisted manual override
   components/         Header, Hero, DemoVideo, Features, CallToAction, Footer, …
 public/               demo video, brand assets, robots.txt, sitemap.xml
 ```
