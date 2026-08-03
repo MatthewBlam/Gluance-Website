@@ -9,7 +9,13 @@ export const APP_NAME = "Gluance";
 export const VERSION = "1.0.0";
 
 export const GITHUB_URL = "https://github.com/MatthewBlam/Gluance";
-export const RELEASE_URL = `${GITHUB_URL}/releases/tag/v${VERSION}`;
+
+/**
+ * The .dmg itself, so a click starts the download instead of landing on GitHub.
+ * The filename must match the asset attached to the release exactly — GitHub 404s
+ * otherwise — so check it after every build if the naming ever changes.
+ */
+export const DOWNLOAD_URL = `${GITHUB_URL}/releases/download/v${VERSION}/${APP_NAME}-${VERSION}-arm64.dmg`;
 export const AUTHOR_NAME = "Matthew Blam";
 export const AUTHOR_URL = "https://github.com/MatthewBlam";
 export const CONTACT_EMAIL = "mrblam@calpoly.edu";

@@ -1,4 +1,4 @@
-import { APP_NAME, AUTHOR_NAME, AUTHOR_URL, DESCRIPTION, MIN_MACOS, RELEASE_URL, VERSION } from "../config";
+import { APP_NAME, AUTHOR_NAME, AUTHOR_URL, DESCRIPTION, DOWNLOAD_URL, MIN_MACOS, VERSION } from "../config";
 
 const SCHEMA = {
   "@context": "https://schema.org",
@@ -12,7 +12,7 @@ const SCHEMA = {
     priceCurrency: "USD",
   },
   description: DESCRIPTION,
-  downloadUrl: RELEASE_URL,
+  downloadUrl: DOWNLOAD_URL,
   softwareVersion: VERSION,
   author: {
     "@type": "Person",

@@ -1,5 +1,5 @@
 import { AppleIcon } from "./AppleIcon";
-import { RELEASE_URL } from "../config";
+import { DOWNLOAD_URL } from "../config";
 
 type DownloadButtonProps = {
   /** "brand" is the green hero CTA; "invert" is the dark pill used in the header and closing CTA. */
@@ -19,12 +19,13 @@ const SHAPES = {
   block: "gap-3 text-base py-3.5 px-5 rounded-xl",
 } as const;
 
+// No target="_blank": GitHub serves the asset with Content-Disposition: attachment, so
+// the browser downloads it without navigating. A new tab would just flash open and close.
 export function DownloadButton({ variant, shape = "block", children }: DownloadButtonProps) {
   return (
     <a
-      href={RELEASE_URL}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={DOWNLOAD_URL}
+      rel="noopener"
       className={`select-none inline-flex items-center no-underline font-semibold transition-all duration-150 ${VARIANTS[variant]} ${SHAPES[shape]}`}>
       <AppleIcon size={shape === "pill" ? 14 : 17} />
       <span>{children}</span>
