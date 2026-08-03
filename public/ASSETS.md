@@ -4,18 +4,17 @@ All assets here are real — there are no placeholders left.
 
 | File | Used by | Source |
 | --- | --- | --- |
-| `app-logo.svg` | header mark, rendered at 60×60 | the Gluance app icon, as supplied |
+| `app-logo.svg` | nothing on the page — kept as the source the two icons derive from | the Gluance app icon, as supplied |
 | `favicon.svg` | browser tab | `app-logo.svg`, cropped to `viewBox="238 238 524 524"` so the ring still reads at 16px |
 | `apple-touch-icon.png` | iOS home screen | `app-logo.svg` on a full-bleed opaque white background (iOS ignores transparency and squares off its own corners) |
 | `og.png` | Open Graph / Twitter card, 1200×630 | frame from the demo recording |
 | `demo-poster.jpg` | `<video poster>` — shown before playback | frame from the demo recording, 1600px wide |
 | `demo.mp4` | the hero video | 2048×1330 / 30 fps encode of the master recording — see the README |
 
-Note on the header mark: `app-logo.svg` has a white rounded-square plate, so on the
-light theme the plate blends into the page and only the green ring shows, while on
-the dark theme you see the full app icon. If you'd rather it look identical in both
-themes, point `Header.tsx` at `favicon.svg` instead — that's the same mark without
-the plate.
+The header is a text-only wordmark (Bitcount Prop Single, set in `Header.tsx`), so no
+logo image is loaded by the page. `app-logo.svg` stays because `favicon.svg` and
+`apple-touch-icon.png` are derived from it — regenerate those from it if the app icon
+changes.
 
 ## Regenerating
 
